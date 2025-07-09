@@ -1,0 +1,20 @@
+name: Helm Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Package Helm Chart
+      run: |
+        helm lint helm/
+        helm package helm/ --destination ./charts
+    - name: Upload to GitHub Releases
+      uses: softprops/action-gh-release@v1
+      with:
+        files: ./charts/*.tgz

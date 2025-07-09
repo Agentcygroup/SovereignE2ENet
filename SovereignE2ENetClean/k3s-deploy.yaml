@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sovereigne2enet
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sovereigne2enet
+  template:
+    metadata:
+      labels:
+        app: sovereigne2enet
+    spec:
+      containers:
+        - name: sovereigne2enet
+          image: agentcygroup/sovereigne2enet:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: sovereigne2enet-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sovereigne2enet-config
+data:
+  ENV: "prod"
+  API_KEY: "planet-key"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sovereigne2enet
+spec:
+  type: LoadBalancer
+  selector:
+    app: sovereigne2enet
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000

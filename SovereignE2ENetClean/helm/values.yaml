@@ -1,0 +1,7 @@
+replicaCount: 3
+image:
+  repository: 
+  pullPolicy: Always
+service:
+  type: LoadBalancer
+  port: 8000

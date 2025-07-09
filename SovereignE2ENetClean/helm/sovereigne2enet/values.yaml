@@ -1,0 +1,7 @@
+replicaCount: 3
+image:
+  repository: agentcygroup/sovereigne2enet:latest
+  pullPolicy: Always
+service:
+  type: LoadBalancer
+  port: 8000
